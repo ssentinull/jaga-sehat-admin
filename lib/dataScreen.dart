@@ -1,6 +1,7 @@
+import './homeScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 
 class DataScreen extends StatefulWidget {
@@ -53,20 +54,23 @@ class _DataScreenState extends State<DataScreen> {
             ),
           ),
           actions: <Widget>[
-            Container(
-              width: 40.0,
-              height: 40.0,
-              margin: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                image: DecorationImage(
-                  image: AssetImage('assets/logo/logo3.png'),
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(50.0),
+           GestureDetector(
+              child: Container(
+                width: 40.0,
+                height: 40.0,
+                margin: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  image: DecorationImage(
+                    image: AssetImage('assets/logo/logo3.png'),
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(50.0),
+                  ),
                 ),
               ),
+              onTap: () => devsDialog(context),
             ),
           ],
         ),
