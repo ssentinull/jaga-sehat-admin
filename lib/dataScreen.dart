@@ -1,5 +1,6 @@
 import './homeScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -91,6 +92,10 @@ class _DataScreenState extends State<DataScreen> {
                         pendidikan = map['pendidikan'] as String,
                         pekerjaan = map['pekerjaan'] as String,
                         email = map['email'] as String;
+                    var rawDate = new DateTime.fromMicrosecondsSinceEpoch(
+                        map['time_stamp'] * 1000);
+                    var dateFormater = DateFormat.yMd().add_jm();
+                    var date = dateFormater.format(rawDate);
                     dataNum++;
                     return Card(
                       margin: EdgeInsets.only(
@@ -222,6 +227,25 @@ class _DataScreenState extends State<DataScreen> {
                                 ),
                               ],
                             ),
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: ListTile(
+                                    leading: Icon(
+                                      Icons.access_time,
+                                      color: Color(0xFFC54C82),
+                                    ),
+                                    title: Text(
+                                      'Waktu Unggah Data',
+                                      style: TextStyle(
+                                        color: Color(0xFFC54C82),
+                                      ),
+                                    ),
+                                    subtitle: Text('$date'),
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),
