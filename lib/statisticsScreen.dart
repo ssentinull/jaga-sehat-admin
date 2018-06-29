@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import './homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,37 +12,188 @@ class StatisticsScreen extends StatefulWidget {
 }
 
 class _StatisticsScreenState extends State<StatisticsScreen> {
-  DatabaseReference itemRef;
+  DatabaseReference hello;
+  int jmlPria = 0,
+      jmlWanita = 0,
+      jmlSd = 0,
+      jmlSmp = 0,
+      jmlSma = 0,
+      jmlPt = 0,
+      jmlPns = 0,
+      jmlSwas = 0,
+      jmlWrs = 0,
+      jmlMhs = 0,
+      jmlPlj = 0,
+      jmlLnn = 0,
+      totalJk = 0,
+      totalPen = 0,
+      totalPek = 0;
+  Color colorPrimary, colorSecondary, colorTertiary;
 
   @override
   void initState() {
     super.initState();
 
-    final FirebaseDatabase database = FirebaseDatabase.instance;
-    itemRef = database.reference().child('data_pengguna');
+    hello = FirebaseDatabase.instance.reference().child("data_pengguna");
+
+    hello.orderByChild("jk").equalTo("Pria").once().then((onValue) {
+      Map data = onValue.value;
+      setState(() {
+        jmlPria = data.length;
+      });
+    });
+
+    hello.orderByChild("jk").equalTo("Wanita").once().then((onValue) {
+      Map data = onValue.value;
+      setState(() {
+        jmlWanita = data.length;
+      });
+    });
+
+    hello.orderByChild("pendidikan").equalTo("SD").once().then((onValue) {
+      Map data = onValue.value;
+      setState(() {
+        jmlSd = data.length;
+      });
+    });
+
+    hello.orderByChild("pendidikan").equalTo("SMP").once().then((onValue) {
+      Map data = onValue.value;
+      setState(() {
+        jmlSmp = data.length;
+      });
+    });
+
+    hello.orderByChild("pendidikan").equalTo("SMA").once().then((onValue) {
+      Map data = onValue.value;
+      setState(() {
+        jmlSma = data.length;
+      });
+    });
+
+    hello
+        .orderByChild("pendidikan")
+        .equalTo("Perguruan Tinggi")
+        .once()
+        .then((onValue) {
+      Map data = onValue.value;
+      setState(() {
+        jmlPt = data.length;
+      });
+    });
+
+    hello.orderByChild("pekerjaan").equalTo("PNS").once().then((onValue) {
+      Map data = onValue.value;
+      setState(() {
+        jmlPns = data.length;
+      });
+    });
+
+    hello
+        .orderByChild("pekerjaan")
+        .equalTo("Pegawai Swasta")
+        .once()
+        .then((onValue) {
+      Map data = onValue.value;
+      setState(() {
+        jmlSwas = data.length;
+      });
+    });
+
+    hello.orderByChild("pekerjaan").equalTo("Mahasiswa").once().then((onValue) {
+      Map data = onValue.value;
+      setState(() {
+        jmlMhs = data.length;
+      });
+    });
+
+    hello.orderByChild("pekerjaan").equalTo("Pelajar").once().then((onValue) {
+      Map data = onValue.value;
+      setState(() {
+        jmlPlj = data.length;
+      });
+    });
+
+    hello.orderByChild("pekerjaan").equalTo("Lainnya").once().then((onValue) {
+      Map data = onValue.value;
+      setState(() {
+        jmlLnn = data.length;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    totalJk = jmlPria + jmlWanita;
+    totalPen = jmlSd + jmlSmp + jmlSma + jmlPt;
+    totalPek = jmlPns + jmlSwas + jmlWrs + jmlMhs + jmlPlj + jmlLnn;
+    var statJk = Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        CustomContainer('Pria', Color(0xFFC54C82), jmlPria),
+        CustomContainer('Wanita', Color(0xFFFF6699),jmlWanita),
+        CustomContainer('Total', Color(0xFF512E67), totalJk),
+      ],
+    );
+
+    var statPen = Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        CustomContainer('SD', Color(0xFFC54C82), jmlSd),
+        CustomContainer('SMP', Color(0xFFFF6699), jmlSmp),
+        CustomContainer('SMA', Color(0xFF512E67), jmlSma),
+        CustomContainer('PT', Color(0xFFC54C90), jmlPt),
+        CustomContainer('Total', Color(0xFF512E67), totalPen),
+      ],
+    );
+
+    var statPek = Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            CustomContainer('PNS',Color(0xFFC54C82), jmlPns),
+            CustomContainer('Swasta', Color(0xFFFF6699), jmlSwas),
+            CustomContainer('Wiraswasta', Color(0xFF512E67), jmlWrs),
+          ],
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            CustomContainer('Mahasiswa', Color(0xFF843156), jmlMhs),
+            CustomContainer('Pelajar', Color(0xFF992365), jmlPlj),
+            CustomContainer('Lainnya', Color(0xFF512E80), jmlLnn),
+            CustomContainer('Total', Color(0xFF512E67), totalPek),
+          ],
+        ),
+      ],
+    );
+
     var dataJk = [
-      Demografi('Pria', 12, Color(0xFFC54C82)),
-      Demografi('Wanita', 42, Color(0xFFFF6699)),
+      Demografi('Pria', jmlPria, Color(0xFFC54C82)),
+      Demografi('Wanita', jmlWanita, Color(0xFFFF6699)),
     ];
 
     var dataPendidikan = [
-      Demografi('SD', 12, Color(0xFFC54C82)),
-      Demografi('SMP', 42, Color(0xFFFF6699)),
-      Demografi('SMA', 22, Color(0xFF512E67)),
-      Demografi('Perguruan Tinggi', 10, Color(0xFFC54C90)),
+      Demografi('SD', jmlSd, Color(0xFFC54C82)),
+      Demografi('SMP', jmlSmp, Color(0xFFFF6699)),
+      Demografi('SMA', jmlSma, Color(0xFF512E67)),
+      Demografi('PT', jmlPt, Color(0xFFC54C90)),
     ];
 
     var dataPekerjaan = [
-      Demografi('PNS', 12, Color(0xFFC54C82)),
-      Demografi('Swasta', 42, Color(0xFFFF6699)),
-      Demografi('Wiraswasta', 22, Color(0xFF512E67)),
-      Demografi('Mahasiswa', 10, Color(0xFFC54C100)),
-      Demografi('Pelajar', 10, Color(0xFFFF66130)),
-      Demografi('Lainnya', 10, Color(0xFF512E80)),
+      Demografi('PNS', jmlPns, Color(0xFFC54C82)),
+      Demografi('Sws', jmlSwas, Color(0xFFFF6699)),
+      Demografi('Wrs', jmlWrs, Color(0xFF512E67)),
+      Demografi('Mhs', jmlMhs, Color(0xFF843156)),
+      Demografi('Pelajar', jmlPlj, Color(0xFF992365)),
+      Demografi('Lainnya', jmlLnn, Color(0xFF512E80)),
     ];
 
     var seriesJk = [
@@ -88,10 +241,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       animate: true,
     );
 
-    var chartWidgetJk = ChartWidget('Jenis Kelamin', chartJk);
-    var chartWidgetPendidikan = ChartWidget('Pendidikan', chartPendidikan);
-    var chartWidgetPekerjaan = ChartWidget('Pekerjaan', chartPekerjaan);
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -101,7 +250,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       home: Scaffold(
         backgroundColor: Color(0xFFC54C82),
         appBar: AppBar(
-          elevation: 1.0,
+          elevation: 0.5,
           backgroundColor: Colors.white,
           leading: IconButton(
               icon: Icon(
@@ -140,13 +289,13 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           ],
         ),
         body: Container(
-          margin: EdgeInsets.all(8.0),
+          margin: EdgeInsets.only(left: 8.0, right: 8.0),
           child: Center(
             child: ListView(
               children: <Widget>[
-                chartWidgetJk,
-                chartWidgetPendidikan,
-                chartWidgetPekerjaan,
+                CustomChart('Jenis Kelamin', statJk, chartJk),
+                CustomChart('Pendidikan', statPen, chartPendidikan),
+                CustomChart('Pekerjaan', statPek, chartPekerjaan),
               ],
             ),
           ),
@@ -156,11 +305,34 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   }
 }
 
-class ChartWidget extends StatelessWidget {
+class CustomContainer extends StatelessWidget {
+  final String category;
+  final int data;
+  final Color color;
+
+  CustomContainer(this.category, this.color, this.data);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(bottom: 16.0, right: 8.0, left: 8.0),
+      child: Text(
+        '$category: $data',
+        style: TextStyle(
+          fontSize: 16.0,
+          color: this.color,
+        ),
+      ),
+    );
+  }
+}
+
+class CustomChart extends StatelessWidget {
   final String title;
+  final Widget data;
   final charts.BarChart chart;
 
-  ChartWidget(this.title, this.chart);
+  CustomChart(this.title, this.data, this.chart);
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +351,10 @@ class ChartWidget extends StatelessWidget {
                 height: 200.0,
                 child: this.chart,
               ),
-            )
+            ),
+            Container(
+              child: this.data,
+            ),
           ],
         ),
       ),

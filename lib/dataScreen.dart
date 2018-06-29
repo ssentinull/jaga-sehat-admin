@@ -32,7 +32,9 @@ class _DataScreenState extends State<DataScreen> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          fontFamily: 'Miriad-Pro', accentColor: Color(0xFFC54C82)),
+        fontFamily: 'Miriad-Pro',
+        accentColor: Color(0xFFC54C82),
+      ),
       home: Scaffold(
         appBar: AppBar(
           elevation: 1.0,
@@ -54,7 +56,7 @@ class _DataScreenState extends State<DataScreen> {
             ),
           ),
           actions: <Widget>[
-           GestureDetector(
+            GestureDetector(
               child: Container(
                 width: 40.0,
                 height: 40.0,
@@ -91,133 +93,138 @@ class _DataScreenState extends State<DataScreen> {
                         email = map['email'] as String;
                     dataNum++;
                     return Card(
-                      margin: EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0, bottom: 4.0,),
+                      margin: EdgeInsets.only(
+                        left: 8.0,
+                        right: 8.0,
+                        top: 4.0,
+                        bottom: 4.0,
+                      ),
                       child: Container(
                         padding: EdgeInsets.only(top: 8.0),
                         child: Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(
-                                  left: 16.0,
-                                  right: 16.0,
-                                ),
-                                child: Text(
-                                  'Data Ke: $dataNum',
-                                  style: TextStyle(
-                                    fontFamily: 'Kelvetica',
-                                    color: Color(0xFFC54C82),
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    left: 16.0,
+                                    right: 16.0,
                                   ),
-                                ),
-                              ),
-                              Expanded(
-                                child: ListTile(
-                                  leading: Icon(
-                                    Icons.email,
-                                    color: Color(0xFFC54C82),
-                                  ),
-                                  title: Text(
-                                    'Email',
+                                  child: Text(
+                                    'Data Ke: $dataNum',
                                     style: TextStyle(
+                                      fontFamily: 'Kelvetica',
                                       color: Color(0xFFC54C82),
                                     ),
                                   ),
-                                  subtitle: Text('$email'),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: ListTile(
-                                  leading: Icon(
-                                    Icons.person,
-                                    color: Color(0xFFC54C82),
-                                  ),
-                                  title: Text(
-                                    'Jenis Kelamin',
-                                    style: TextStyle(
+                                Expanded(
+                                  child: ListTile(
+                                    leading: Icon(
+                                      Icons.email,
                                       color: Color(0xFFC54C82),
                                     ),
+                                    title: Text(
+                                      'Email',
+                                      style: TextStyle(
+                                        color: Color(0xFFC54C82),
+                                      ),
+                                    ),
+                                    subtitle: Text('$email'),
                                   ),
-                                  subtitle: Text('$jk'),
                                 ),
-                              ),
-                              Container(
-                                height: 30.0,
-                                width: 1.0,
-                                color: Color(0xFFC54C82),
-                                margin: const EdgeInsets.only(
-                                  left: 10.0,
-                                  right: 10.0,
-                                ),
-                              ),
-                              Expanded(
-                                child: ListTile(
-                                  leading: Icon(
-                                    Icons.work,
-                                    color: Color(0xFFC54C82),
-                                  ),
-                                  title: Text(
-                                    'Pekerjaan',
-                                    style: TextStyle(
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: ListTile(
+                                    leading: Icon(
+                                      Icons.person,
                                       color: Color(0xFFC54C82),
                                     ),
+                                    title: Text(
+                                      'Jenis Kelamin',
+                                      style: TextStyle(
+                                        color: Color(0xFFC54C82),
+                                      ),
+                                    ),
+                                    subtitle: Text('$jk'),
                                   ),
-                                  subtitle: Text('$pekerjaan'),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: ListTile(
-                                  leading: Icon(
-                                    Icons.calendar_today,
-                                    color: Color(0xFFC54C82),
+                                Container(
+                                  height: 30.0,
+                                  width: 1.0,
+                                  color: Color(0xFFC54C82),
+                                  margin: const EdgeInsets.only(
+                                    left: 10.0,
+                                    right: 10.0,
                                   ),
-                                  title: Text(
-                                    'Usia',
-                                    style: TextStyle(
+                                ),
+                                Expanded(
+                                  child: ListTile(
+                                    leading: Icon(
+                                      Icons.work,
                                       color: Color(0xFFC54C82),
                                     ),
+                                    title: Text(
+                                      'Pekerjaan',
+                                      style: TextStyle(
+                                        color: Color(0xFFC54C82),
+                                      ),
+                                    ),
+                                    subtitle: Text('$pekerjaan'),
                                   ),
-                                  subtitle: Text('$usia'),
                                 ),
-                              ),
-                              Container(
-                                height: 30.0,
-                                width: 1.0,
-                                color: Color(0xFFC54C82),
-                                margin: const EdgeInsets.only(
-                                  left: 10.0,
-                                  right: 10.0,
-                                ),
-                              ),
-                              Expanded(
-                                child: ListTile(
-                                  leading: Icon(
-                                    Icons.import_contacts,
-                                    color: Color(0xFFC54C82),
-                                  ),
-                                  title: Text(
-                                    'Tingkat Pendidikan',
-                                    style: TextStyle(
-                                      fontSize: 14.0,
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: ListTile(
+                                    leading: Icon(
+                                      Icons.calendar_today,
                                       color: Color(0xFFC54C82),
                                     ),
+                                    title: Text(
+                                      'Usia',
+                                      style: TextStyle(
+                                        color: Color(0xFFC54C82),
+                                      ),
+                                    ),
+                                    subtitle: Text('$usia'),
                                   ),
-                                  subtitle: Text('$pendidikan'),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                                Container(
+                                  height: 30.0,
+                                  width: 1.0,
+                                  color: Color(0xFFC54C82),
+                                  margin: const EdgeInsets.only(
+                                    left: 10.0,
+                                    right: 10.0,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: ListTile(
+                                    leading: Icon(
+                                      Icons.import_contacts,
+                                      color: Color(0xFFC54C82),
+                                    ),
+                                    title: Text(
+                                      'Tingkat Pendidikan',
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Color(0xFFC54C82),
+                                      ),
+                                    ),
+                                    subtitle: Text('$pendidikan'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                      ), 
                     );
                   },
                 ),
