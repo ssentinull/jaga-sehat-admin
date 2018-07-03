@@ -167,6 +167,7 @@ class CustomExpandedWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: ListTile(
+        dense: true,
         leading: Icon(
           icon,
           color: Color(0xFFC54C82),
@@ -178,7 +179,7 @@ class CustomExpandedWidget extends StatelessWidget {
             fontSize: 14.0,
           ),
         ),
-        subtitle: Text('$data'),
+        subtitle: Text('$data', style: TextStyle(fontSize: 13.0),),
       ),
     );
   }

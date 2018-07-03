@@ -15,6 +15,11 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   DatabaseReference hello;
   int jmlPria = 0,
       jmlWanita = 0,
+      jml617 = 0,
+      jml1829 = 0,
+      jml3045 = 0,
+      jml4660 = 0,
+      jml60 = 0,
       jmlSd = 0,
       jmlSmp = 0,
       jmlSma = 0,
@@ -26,6 +31,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       jmlPlj = 0,
       jmlLnn = 0,
       totalJk = 0,
+      totalUsia = 0,
       totalPen = 0,
       totalPek = 0;
   Color colorPrimary, colorSecondary, colorTertiary;
@@ -47,6 +53,41 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       Map data = onValue.value;
       setState(() {
         jmlWanita = data.length;
+      });
+    });
+
+    hello.orderByChild("usia").equalTo("6 - 17").once().then((onValue) {
+      Map data = onValue.value;
+      setState(() {
+        jml617 = data.length;
+      });
+    });
+
+    hello.orderByChild("usia").equalTo("18 - 29").once().then((onValue) {
+      Map data = onValue.value;
+      setState(() {
+        jml1829 = data.length;
+      });
+    });
+
+    hello.orderByChild("usia").equalTo("30 - 45").once().then((onValue) {
+      Map data = onValue.value;
+      setState(() {
+        jml3045 = data.length;
+      });
+    });
+
+    hello.orderByChild("usia").equalTo("46 - 60").once().then((onValue) {
+      Map data = onValue.value;
+      setState(() {
+        jml4660 = data.length;
+      });
+    });
+
+    hello.orderByChild("usia").equalTo("60+").once().then((onValue) {
+      Map data = onValue.value;
+      setState(() {
+        jml60 = data.length;
       });
     });
 
@@ -125,8 +166,10 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   @override
   Widget build(BuildContext context) {
     totalJk = jmlPria + jmlWanita;
+    totalUsia = jml617 + jml1829 + jml3045 + jml4660 + jml60;
     totalPen = jmlSd + jmlSmp + jmlSma + jmlPt;
     totalPek = jmlPns + jmlSwas + jmlWrs + jmlMhs + jmlPlj + jmlLnn;
+
     var statJk = Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
@@ -134,6 +177,31 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         CustomContainer('Pria', Color(0xFFC54C82), jmlPria),
         CustomContainer('Wanita', Color(0xFFFF6699), jmlWanita),
         CustomContainer('Total', Color(0xFF512E67), totalJk),
+      ],
+    );
+
+    var statUsia = Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+        CustomContainer('6 - 17', Color(0xFFC54C82), jml617),
+        CustomContainer('18 - 29', Color(0xFFFF6699), jml1829),
+        CustomContainer('30 - 45', Color(0xFF512E67), jml3045),
+          ],
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+        CustomContainer('46 - 60', Color(0xFFC54C90), jml4660),
+        CustomContainer('60+', Color(0xFF512E67), jml60),
+        CustomContainer('Total', Color(0xFF512E80), totalUsia),
+          ],
+        ),
       ],
     );
 
@@ -180,6 +248,14 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       Demografi('Wanita', jmlWanita, Color(0xFFFF6699)),
     ];
 
+    var dataUsia = [
+      Demografi('6 - 17', jmlPns, Color(0xFFC54C82)),
+      Demografi('18 - 29', jmlSwas, Color(0xFFFF6699)),
+      Demografi('30 - 45', jmlWrs, Color(0xFF512E67)),
+      Demografi('46 - 60', jmlMhs, Color(0xFF843156)),
+      Demografi('60+', jmlPlj, Color(0xFF992365)),
+    ];
+
     var dataPendidikan = [
       Demografi('SD', jmlSd, Color(0xFFC54C82)),
       Demografi('SMP', jmlSmp, Color(0xFFFF6699)),
@@ -200,6 +276,16 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       charts.Series(
         id: 'Jk',
         data: dataJk,
+        domainFn: (Demografi data, _) => data.demografi,
+        measureFn: (Demografi data, _) => data.jumlah,
+        colorFn: (Demografi data, _) => data.color,
+      ),
+    ];
+
+    var seriesUsia = [
+      charts.Series(
+        id: 'Usia',
+        data: dataUsia,
         domainFn: (Demografi data, _) => data.demografi,
         measureFn: (Demografi data, _) => data.jumlah,
         colorFn: (Demografi data, _) => data.color,
@@ -228,6 +314,11 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
     var chartJk = charts.BarChart<Demografi>(
       seriesJk,
+      animate: true,
+    );
+
+    var chartUsia = charts.BarChart<Demografi>(
+      seriesUsia,
       animate: true,
     );
 
@@ -271,6 +362,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 child: ListView(
                   children: <Widget>[
                     CustomChart('Jenis Kelamin', statJk, chartJk),
+                    CustomChart('Usia', statUsia, chartUsia),
                     CustomChart('Pendidikan', statPen, chartPendidikan),
                     CustomChart('Pekerjaan', statPek, chartPekerjaan),
                   ],
