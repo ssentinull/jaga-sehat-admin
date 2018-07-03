@@ -261,17 +261,23 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         appBar: CustomAppBar3(
           backButton: backButtons,
         ),
-        body: Container(
-          margin: EdgeInsets.only(left: 8.0, right: 8.0),
-          child: Center(
-            child: ListView(
-              children: <Widget>[
-                CustomChart('Jenis Kelamin', statJk, chartJk),
-                CustomChart('Pendidikan', statPen, chartPendidikan),
-                CustomChart('Pekerjaan', statPek, chartPekerjaan),
-              ],
-            ),
-          ),
+        body: OrientationBuilder(
+          builder: (BuildContext context, Orientation orientation) {
+            return Container(
+              margin: orientation == Orientation.portrait
+                  ? EdgeInsets.only(left: 8.0, right: 8.0)
+                  : EdgeInsets.only(left: 128.0, right: 128.0),
+              child: Center(
+                child: ListView(
+                  children: <Widget>[
+                    CustomChart('Jenis Kelamin', statJk, chartJk),
+                    CustomChart('Pendidikan', statPen, chartPendidikan),
+                    CustomChart('Pekerjaan', statPek, chartPekerjaan),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
@@ -309,26 +315,29 @@ class CustomChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        padding: EdgeInsets.only(top: 16.0),
-        child: Column(
-          children: <Widget>[
-            Text(
-              this.title,
-              style: TextStyle(fontSize: 24.0, color: Color(0xFFC54C82)),
-            ),
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: SizedBox(
-                height: 200.0,
-                child: this.chart,
+    return Container(
+      margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
+      child: Card(
+        child: Container(
+          padding: EdgeInsets.only(top: 16.0),
+          child: Column(
+            children: <Widget>[
+              Text(
+                this.title,
+                style: TextStyle(fontSize: 24.0, color: Color(0xFFC54C82)),
               ),
-            ),
-            Container(
-              child: this.data,
-            ),
-          ],
+              Padding(
+                padding: EdgeInsets.all(16.0),
+                child: SizedBox(
+                  height: 200.0,
+                  child: this.chart,
+                ),
+              ),
+              Container(
+                child: this.data,
+              ),
+            ],
+          ),
         ),
       ),
     );
