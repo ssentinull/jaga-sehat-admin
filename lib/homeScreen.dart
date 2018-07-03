@@ -1,6 +1,7 @@
 import './auth.dart';
 import './dataScreen.dart';
 import './statisticsScreen.dart';
+import './backgrounds.dart';
 import './reusableWidgets.dart';
 import 'firestoreImage.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +37,79 @@ class HomeScreen extends StatelessWidget {
     var statistikRoute = MaterialPageRoute(
         builder: (BuildContext context) => StatisticsScreen());
 
-    var downloadRoute =
-        MaterialPageRoute(builder: (BuildContext context) => MyHomePage());
+    var statistikButton1 = customContainer(
+      true,
+      RaisedButton(
+        elevation: 1.5,
+        padding: EdgeInsets.all(40.0),
+        color: Color(0xFFC54C82),
+        child: customPlacement(true, 'Statistik', Icons.assessment),
+        onPressed: () {
+          Navigator.of(context).push(statistikRoute);
+        },
+      ),
+    );
+
+    var dataButton1 = customContainer(
+      true,
+      RaisedButton(
+        elevation: 1.5,
+        padding: EdgeInsets.all(40.0),
+        color: Color(0xFF512E67),
+        child: customPlacement(true, 'Kontak', Icons.assignment_ind),
+        onPressed: () {
+          Navigator.of(context).push(dataRoute);
+        },
+      ),
+    );
+
+    var unduhButton1 = customContainer(
+      true,
+      RaisedButton(
+        elevation: 1.5,
+        padding: EdgeInsets.all(40.0),
+        color: Color(0xFFFF6699),
+        child: customPlacement(true, 'Unduh', Icons.cloud_download),
+        onPressed: () {},
+      ),
+    );
+
+    var statistikButton2 = customContainer(
+      false,
+      RaisedButton(
+        elevation: 1.5,
+        padding: EdgeInsets.all(40.0),
+        color: Color(0xFFC54C82),
+        child: customPlacement(false, 'Statistik', Icons.assessment),
+        onPressed: () {
+          Navigator.of(context).push(statistikRoute);
+        },
+      ),
+    );
+
+    var dataButton2 = customContainer(
+      false,
+      RaisedButton(
+        elevation: 1.5,
+        padding: EdgeInsets.all(40.0),
+        color: Color(0xFF512E67),
+        child: customPlacement(false, 'Kontak', Icons.assignment_ind),
+        onPressed: () {
+          Navigator.of(context).push(dataRoute);
+        },
+      ),
+    );
+
+    var unduhButton2 = customContainer(
+      false,
+      RaisedButton(
+        elevation: 1.5,
+        padding: EdgeInsets.all(40.0),
+        color: Color(0xFFFF6699),
+        child: customPlacement(false, 'Unduh', Icons.cloud_download),
+        onPressed: () {},
+      ),
+    );
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -48,44 +120,46 @@ class HomeScreen extends StatelessWidget {
         appBar: CustomAppBar2(
           logoutButton: logoutButtons,
         ),
-        body: OrientationBuilder(
-          builder: (BuildContext context, Orientation orientation) {
-            return Center(
-              child: orientation == Orientation.portrait
-              ? Container(
-                padding: EdgeInsets.only(
-                  left: 16.0,
-                  right: 16.0,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    CustomButton(true, 'Statistik', Icons.assessment, 0xFFC54C82,
-                        statistikRoute),
-                    CustomButton(true, 'Data Individu', Icons.assignment_ind,
-                        0xFF512E67, dataRoute),
-                    CustomButton(true, 'Unduh', Icons.cloud_download, 0xFFFF6699,
-                        downloadRoute),
-                  ],
-                ),
-              )
-              : Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    CustomButton(false, 'Statistik', Icons.assessment, 0xFFC54C82,
-                        statistikRoute),
-                    CustomButton(false, 'Data Individu', Icons.assignment_ind,
-                        0xFF512E67, dataRoute),
-                    CustomButton(false, 'Unduh', Icons.cloud_download, 0xFFFF6699,
-                        downloadRoute),
-
-                  ],
-                ),
-              ),
-            );
-          },
+        body: Stack(
+          children: <Widget>[
+            Positioned(
+              child: HomeScreenOverlay(
+                  Color(0xFFC54C82), Color(0xFF512E67), Color(0xFFFF6699)),
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+            ),
+            OrientationBuilder(
+              builder: (BuildContext context, Orientation orientation) {
+                return Center(
+                  child: orientation == Orientation.portrait
+                      ? Container(
+                          padding: EdgeInsets.only(
+                            left: 16.0,
+                            right: 16.0,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              statistikButton1,
+                              dataButton1,
+                              unduhButton1
+                            ],
+                          ),
+                        )
+                      : Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              statistikButton2,
+                              dataButton2,
+                              unduhButton2
+                            ],
+                          ),
+                        ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
@@ -146,30 +220,4 @@ Widget customContainer(bool p, Widget button) {
     margin: EdgeInsets.all(5.0),
     child: button,
   );
-}
-
-class CustomButton extends StatelessWidget {
-  final bool p;
-  final int hexVal;
-  final String text;
-  final IconData icon;
-  final MaterialPageRoute route;
-
-  CustomButton(this.p, this.text, this.icon, this.hexVal, this.route);
-
-  @override
-  Widget build(BuildContext context) {
-    return customContainer(
-      p,
-      RaisedButton(
-        elevation: 1.5,
-        padding: EdgeInsets.all(35.0),
-        color: Color(this.hexVal),
-        child: customPlacement(this.p, this.text, this.icon),
-        onPressed: () {
-          Navigator.of(context).push(route);
-        },
-      ),
-    );
-  }
 }

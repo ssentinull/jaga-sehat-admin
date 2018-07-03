@@ -1,4 +1,5 @@
 import './homeScreen.dart';
+import './backgrounds.dart';
 import './reusableWidgets.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -188,18 +189,18 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-        CustomContainer('6 - 17', Color(0xFFC54C82), jml617),
-        CustomContainer('18 - 29', Color(0xFFFF6699), jml1829),
-        CustomContainer('30 - 45', Color(0xFF512E67), jml3045),
+            CustomContainer('6 - 17', Color(0xFFC54C82), jml617),
+            CustomContainer('18 - 29', Color(0xFFFF6699), jml1829),
+            CustomContainer('30 - 45', Color(0xFF512E67), jml3045),
           ],
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-        CustomContainer('46 - 60', Color(0xFFC54C90), jml4660),
-        CustomContainer('60+', Color(0xFF512E67), jml60),
-        CustomContainer('Total', Color(0xFF512E80), totalUsia),
+            CustomContainer('46 - 60', Color(0xFFC54C90), jml4660),
+            CustomContainer('60+', Color(0xFF512E67), jml60),
+            CustomContainer('Total', Color(0xFF512E80), totalUsia),
           ],
         ),
       ],
@@ -348,28 +349,36 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         accentColor: Color(0xFFC54C82),
       ),
       home: Scaffold(
-        backgroundColor: Color(0xFFC54C82),
         appBar: CustomAppBar3(
           backButton: backButtons,
         ),
-        body: OrientationBuilder(
-          builder: (BuildContext context, Orientation orientation) {
-            return Container(
-              margin: orientation == Orientation.portrait
-                  ? EdgeInsets.only(left: 8.0, right: 8.0)
-                  : EdgeInsets.only(left: 128.0, right: 128.0),
-              child: Center(
-                child: ListView(
-                  children: <Widget>[
-                    CustomChart('Jenis Kelamin', statJk, chartJk),
-                    CustomChart('Usia', statUsia, chartUsia),
-                    CustomChart('Pendidikan', statPen, chartPendidikan),
-                    CustomChart('Pekerjaan', statPek, chartPekerjaan),
-                  ],
-                ),
-              ),
-            );
-          },
+        body: Stack(
+          children: <Widget>[
+            Positioned(
+              child: SingleColorOverlay(Color(0xFFC54C82)),
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+            ),
+            OrientationBuilder(
+              builder: (BuildContext context, Orientation orientation) {
+                return Container(
+                  margin: orientation == Orientation.portrait
+                      ? EdgeInsets.only(left: 8.0, right: 8.0)
+                      : EdgeInsets.only(left: 128.0, right: 128.0),
+                  child: Center(
+                    child: ListView(
+                      children: <Widget>[
+                        CustomChart('Jenis Kelamin', statJk, chartJk),
+                        CustomChart('Usia', statUsia, chartUsia),
+                        CustomChart('Pendidikan', statPen, chartPendidikan),
+                        CustomChart('Pekerjaan', statPek, chartPekerjaan),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
