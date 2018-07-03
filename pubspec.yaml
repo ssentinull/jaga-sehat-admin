@@ -13,6 +13,7 @@ dependencies:
   firebase_auth: 0.5.11
   firebase_database: 1.0.1
   firebase_core: any
+  firebase_storage: "^0.3.7"
 
 dev_dependencies:
   flutter_test:
