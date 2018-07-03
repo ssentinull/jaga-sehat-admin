@@ -1,6 +1,7 @@
 import './homeScreen.dart';
-import 'package:flutter/material.dart';
+import './reusableWidgets.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -12,8 +13,6 @@ class DataScreen extends StatefulWidget {
 
 class _DataScreenState extends State<DataScreen> {
   int dataNum = 0;
-  Item item;
-  List<Item> items = List();
   DatabaseReference itemRef;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -28,7 +27,14 @@ class _DataScreenState extends State<DataScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle textStyle = Theme.of(context).textTheme.button;
+    var backButtons = IconButton(
+        icon: Icon(
+          Icons.arrow_back,
+          color: Color(0xFFC54C82),
+        ),
+        onPressed: () {
+          Navigator.pop(context, true);
+        });
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -37,45 +43,8 @@ class _DataScreenState extends State<DataScreen> {
         accentColor: Color(0xFFC54C82),
       ),
       home: Scaffold(
-        appBar: AppBar(
-          elevation: 1.0,
-          backgroundColor: Colors.white,
-          leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Color(0xFFC54C82),
-              ),
-              onPressed: () {
-                Navigator.pop(context, true);
-              }),
-          title: Text(
-            'Jaga Sehat',
-            style: TextStyle(
-              color: Color(0xFFC54C82),
-              fontSize: 26.0,
-              fontFamily: 'Kelvetica',
-            ),
-          ),
-          actions: <Widget>[
-            GestureDetector(
-              child: Container(
-                width: 40.0,
-                height: 40.0,
-                margin: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  image: DecorationImage(
-                    image: AssetImage('assets/logo/logo3.png'),
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(50.0),
-                  ),
-                ),
-              ),
-              onTap: () => devsDialog(context),
-            ),
-          ],
+        appBar: CustomAppBar3(
+          backButton: backButtons,
         ),
         body: Container(
           color: Color(0xFF512E67),
@@ -119,122 +88,13 @@ class _DataScreenState extends State<DataScreen> {
                                     'Data Ke: $dataNum',
                                     style: TextStyle(
                                       fontFamily: 'Kelvetica',
+                                      fontSize: 18.0,
                                       color: Color(0xFFC54C82),
                                     ),
                                   ),
                                 ),
                                 Expanded(
                                   child: ListTile(
-                                    leading: Icon(
-                                      Icons.email,
-                                      color: Color(0xFFC54C82),
-                                    ),
-                                    title: Text(
-                                      'Email',
-                                      style: TextStyle(
-                                        color: Color(0xFFC54C82),
-                                      ),
-                                    ),
-                                    subtitle: Text('$email'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: ListTile(
-                                    leading: Icon(
-                                      Icons.person,
-                                      color: Color(0xFFC54C82),
-                                    ),
-                                    title: Text(
-                                      'Jenis Kelamin',
-                                      style: TextStyle(
-                                        color: Color(0xFFC54C82),
-                                      ),
-                                    ),
-                                    subtitle: Text('$jk'),
-                                  ),
-                                ),
-                                Container(
-                                  height: 30.0,
-                                  width: 1.0,
-                                  color: Color(0xFFC54C82),
-                                  margin: const EdgeInsets.only(
-                                    left: 10.0,
-                                    right: 10.0,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: ListTile(
-                                    leading: Icon(
-                                      Icons.work,
-                                      color: Color(0xFFC54C82),
-                                    ),
-                                    title: Text(
-                                      'Pekerjaan',
-                                      style: TextStyle(
-                                        color: Color(0xFFC54C82),
-                                      ),
-                                    ),
-                                    subtitle: Text('$pekerjaan'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: ListTile(
-                                    leading: Icon(
-                                      Icons.calendar_today,
-                                      color: Color(0xFFC54C82),
-                                    ),
-                                    title: Text(
-                                      'Usia',
-                                      style: TextStyle(
-                                        color: Color(0xFFC54C82),
-                                      ),
-                                    ),
-                                    subtitle: Text('$usia'),
-                                  ),
-                                ),
-                                Container(
-                                  height: 30.0,
-                                  width: 1.0,
-                                  color: Color(0xFFC54C82),
-                                  margin: const EdgeInsets.only(
-                                    left: 10.0,
-                                    right: 10.0,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: ListTile(
-                                    leading: Icon(
-                                      Icons.import_contacts,
-                                      color: Color(0xFFC54C82),
-                                    ),
-                                    title: Text(
-                                      'Tingkat Pendidikan',
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                        color: Color(0xFFC54C82),
-                                      ),
-                                    ),
-                                    subtitle: Text('$pendidikan'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: ListTile(
-                                    leading: Icon(
-                                      Icons.access_time,
-                                      color: Color(0xFFC54C82),
-                                    ),
                                     title: Text(
                                       'Waktu Unggah Data',
                                       style: TextStyle(
@@ -244,6 +104,27 @@ class _DataScreenState extends State<DataScreen> {
                                     subtitle: Text('$date'),
                                   ),
                                 ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                CustomExpandedWidget('Jenis Kelamin', jk, Icons.person),
+                                CustomDivider(),
+                                CustomExpandedWidget('Pekerjaan', pekerjaan, Icons.work),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                CustomExpandedWidget('Usia', usia, Icons.calendar_today),
+                                CustomDivider(),
+                                CustomExpandedWidget('Tingkat Pendidikan',
+                                    pendidikan, Icons.import_contacts),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                CustomExpandedWidget(
+                                    'Email', email, Icons.email),
                               ],
                             )
                           ],
@@ -261,26 +142,44 @@ class _DataScreenState extends State<DataScreen> {
   }
 }
 
-class Item {
-  String key, jk, usia, pendidikan, pekerjaan, email;
+class CustomExpandedWidget extends StatelessWidget {
+  String category, data;
+  IconData icon;
 
-  Item(this.jk, this.usia, this.pendidikan, this.pekerjaan, this.email);
+  CustomExpandedWidget(this.category, this.data, this.icon);
 
-  Item.fromSnapshot(DataSnapshot snapshot)
-      : key = snapshot.key,
-        jk = snapshot.value["jk"],
-        usia = snapshot.value["usia"],
-        pendidikan = snapshot.value["pendidikan"],
-        pekerjaan = snapshot.value["pekerjaan"],
-        email = snapshot.value["email"];
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListTile(
+        leading: Icon(
+          icon,
+          color: Color(0xFFC54C82),
+        ),
+        title: Text(
+          '$category',
+          style: TextStyle(
+            color: Color(0xFFC54C82),
+            fontSize: 14.0,
+          ),
+        ),
+        subtitle: Text('$data'),
+      ),
+    );
+  }
+}
 
-  toJson() {
-    return {
-      "jk": jk,
-      "usia": usia,
-      "pendidikan": pendidikan,
-      "pekerjaan": pekerjaan,
-      "email": email,
-    };
+class CustomDivider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 30.0,
+      width: 1.0,
+      color: Color(0xFFC54C82),
+      margin: const EdgeInsets.only(
+        left: 10.0,
+        right: 10.0,
+      ),
+    );
   }
 }

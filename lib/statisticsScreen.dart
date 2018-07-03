@@ -1,6 +1,6 @@
-import 'dart:async';
-
 import './homeScreen.dart';
+import './reusableWidgets.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -132,7 +132,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         CustomContainer('Pria', Color(0xFFC54C82), jmlPria),
-        CustomContainer('Wanita', Color(0xFFFF6699),jmlWanita),
+        CustomContainer('Wanita', Color(0xFFFF6699), jmlWanita),
         CustomContainer('Total', Color(0xFF512E67), totalJk),
       ],
     );
@@ -157,7 +157,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            CustomContainer('PNS',Color(0xFFC54C82), jmlPns),
+            CustomContainer('PNS', Color(0xFFC54C82), jmlPns),
             CustomContainer('Swasta', Color(0xFFFF6699), jmlSwas),
             CustomContainer('Wiraswasta', Color(0xFF512E67), jmlWrs),
           ],
@@ -241,6 +241,15 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       animate: true,
     );
 
+    var backButtons = IconButton(
+        icon: Icon(
+          Icons.arrow_back,
+          color: Color(0xFFC54C82),
+        ),
+        onPressed: () {
+          Navigator.pop(context, true);
+        });
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -249,44 +258,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       ),
       home: Scaffold(
         backgroundColor: Color(0xFFC54C82),
-        appBar: AppBar(
-          elevation: 0.5,
-          backgroundColor: Colors.white,
-          leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Color(0xFFC54C82),
-              ),
-              onPressed: () {
-                Navigator.pop(context, true);
-              }),
-          title: Text(
-            'Jaga Sehat',
-            style: TextStyle(
-                color: Color(0xFFC54C82),
-                fontSize: 26.0,
-                fontFamily: 'Kelvetica'),
-          ),
-          actions: <Widget>[
-            GestureDetector(
-              child: Container(
-                width: 40.0,
-                height: 40.0,
-                margin: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  image: DecorationImage(
-                    image: AssetImage('assets/logo/logo3.png'),
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(50.0),
-                  ),
-                ),
-              ),
-              onTap: () => devsDialog(context),
-            ),
-          ],
+        appBar: CustomAppBar3(
+          backButton: backButtons,
         ),
         body: Container(
           margin: EdgeInsets.only(left: 8.0, right: 8.0),
