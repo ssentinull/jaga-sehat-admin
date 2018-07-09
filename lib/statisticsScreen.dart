@@ -13,7 +13,6 @@ class StatisticsScreen extends StatefulWidget {
 }
 
 class _StatisticsScreenState extends State<StatisticsScreen> {
-  DatabaseReference hello;
   int jmlPria = 0,
       jmlWanita = 0,
       jml617 = 0,
@@ -35,85 +34,99 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       totalUsia = 0,
       totalPen = 0,
       totalPek = 0;
+  String bnkyJk, bnkyUsia, bnkyPen, bnkyPek;
   Color colorPrimary, colorSecondary, colorTertiary;
+  DatabaseReference dbReference;
+
+  String countBnyk(List<Banyak> list) {
+    int tmpJml = 0;
+    String tmpKat;
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].jml > tmpJml) {
+        tmpJml = list[i].jml;
+        tmpKat = list[i].kategori;
+      }
+    }
+    return tmpKat;
+  }
 
   @override
   void initState() {
     super.initState();
 
-    hello = FirebaseDatabase.instance.reference().child("data_pengguna");
+    dbReference = FirebaseDatabase.instance.reference().child("data_pengguna");
 
-    hello.orderByChild("jk").equalTo("Pria").once().then((onValue) {
+    dbReference.orderByChild("jk").equalTo("Pria").once().then((onValue) {
       Map data = onValue.value;
       setState(() {
         jmlPria = data.length;
       });
     });
 
-    hello.orderByChild("jk").equalTo("Wanita").once().then((onValue) {
+    dbReference.orderByChild("jk").equalTo("Wanita").once().then((onValue) {
       Map data = onValue.value;
       setState(() {
         jmlWanita = data.length;
       });
     });
 
-    hello.orderByChild("usia").equalTo("6 - 17").once().then((onValue) {
+    dbReference.orderByChild("usia").equalTo("6 - 17").once().then((onValue) {
       Map data = onValue.value;
       setState(() {
         jml617 = data.length;
       });
     });
 
-    hello.orderByChild("usia").equalTo("18 - 29").once().then((onValue) {
+    dbReference.orderByChild("usia").equalTo("18 - 29").once().then((onValue) {
       Map data = onValue.value;
       setState(() {
         jml1829 = data.length;
       });
     });
 
-    hello.orderByChild("usia").equalTo("30 - 45").once().then((onValue) {
+    dbReference.orderByChild("usia").equalTo("30 - 45").once().then((onValue) {
       Map data = onValue.value;
       setState(() {
         jml3045 = data.length;
       });
     });
 
-    hello.orderByChild("usia").equalTo("46 - 60").once().then((onValue) {
+    dbReference.orderByChild("usia").equalTo("46 - 60").once().then((onValue) {
       Map data = onValue.value;
       setState(() {
         jml4660 = data.length;
       });
     });
 
-    hello.orderByChild("usia").equalTo("60+").once().then((onValue) {
+    dbReference.orderByChild("usia").equalTo("60+").once().then((onValue) {
       Map data = onValue.value;
       setState(() {
         jml60 = data.length;
       });
     });
 
-    hello.orderByChild("pendidikan").equalTo("SD").once().then((onValue) {
+    dbReference.orderByChild("pendidikan").equalTo("SD").once().then((onValue) {
       Map data = onValue.value;
       setState(() {
         jmlSd = data.length;
       });
     });
 
-    hello.orderByChild("pendidikan").equalTo("SMP").once().then((onValue) {
+    dbReference.orderByChild("pendidikan").equalTo("SMP").once().then((onValue) {
       Map data = onValue.value;
       setState(() {
         jmlSmp = data.length;
       });
     });
 
-    hello.orderByChild("pendidikan").equalTo("SMA").once().then((onValue) {
+    dbReference.orderByChild("pendidikan").equalTo("SMA").once().then((onValue) {
       Map data = onValue.value;
       setState(() {
         jmlSma = data.length;
       });
     });
 
-    hello
+    dbReference
         .orderByChild("pendidikan")
         .equalTo("Perguruan Tinggi")
         .once()
@@ -124,14 +137,14 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       });
     });
 
-    hello.orderByChild("pekerjaan").equalTo("PNS").once().then((onValue) {
+    dbReference.orderByChild("pekerjaan").equalTo("PNS").once().then((onValue) {
       Map data = onValue.value;
       setState(() {
         jmlPns = data.length;
       });
     });
 
-    hello
+    dbReference
         .orderByChild("pekerjaan")
         .equalTo("Pegawai Swasta")
         .once()
@@ -142,21 +155,32 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       });
     });
 
-    hello.orderByChild("pekerjaan").equalTo("Mahasiswa").once().then((onValue) {
+    dbReference
+        .orderByChild("pekerjaan")
+        .equalTo("Wiraswasta")
+        .once()
+        .then((onValue) {
+      Map data = onValue.value;
+      setState(() {
+        jmlWrs = data.length;
+      });
+    });
+
+    dbReference.orderByChild("pekerjaan").equalTo("Mahasiswa").once().then((onValue) {
       Map data = onValue.value;
       setState(() {
         jmlMhs = data.length;
       });
     });
 
-    hello.orderByChild("pekerjaan").equalTo("Pelajar").once().then((onValue) {
+    dbReference.orderByChild("pekerjaan").equalTo("Pelajar").once().then((onValue) {
       Map data = onValue.value;
       setState(() {
         jmlPlj = data.length;
       });
     });
 
-    hello.orderByChild("pekerjaan").equalTo("Lainnya").once().then((onValue) {
+    dbReference.orderByChild("pekerjaan").equalTo("Lainnya").once().then((onValue) {
       Map data = onValue.value;
       setState(() {
         jmlLnn = data.length;
@@ -170,6 +194,42 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     totalUsia = jml617 + jml1829 + jml3045 + jml4660 + jml60;
     totalPen = jmlSd + jmlSmp + jmlSma + jmlPt;
     totalPek = jmlPns + jmlSwas + jmlWrs + jmlMhs + jmlPlj + jmlLnn;
+
+    List<Banyak> arrayJk = [
+      Banyak(jmlPria, 'Pria'),
+      Banyak(jmlWanita, 'Wanita')
+    ];
+
+    List<Banyak> arrayUsia = [
+      Banyak(jml617, '6 - 17'),
+      Banyak(jml1829, '18 - 29'),
+      Banyak(jml3045, '30 - 45'),
+      Banyak(jml4660, '46 - 60'),
+      Banyak(jml60, '60+')
+    ];
+
+    List<Banyak> arrayPen = [
+      Banyak(jmlSd, 'SD'),
+      Banyak(jmlSmp, 'SMP'),
+      Banyak(jmlSma, 'SMP'),
+      Banyak(jmlPt, 'PT')
+    ];
+
+    List<Banyak> arrayPek = [
+      Banyak(jmlPns, 'PNS'),
+      Banyak(jmlSwas, 'Swasta'),
+      Banyak(jmlWrs, 'Wiraswasta'),
+      Banyak(jmlMhs, 'Mahasiswa'),
+      Banyak(jmlPlj, 'Pelajar'),
+      Banyak(jmlLnn, 'Lainnya')
+    ];
+
+    setState(() {
+      bnkyJk = countBnyk(arrayJk);
+      bnkyUsia = countBnyk(arrayUsia);
+      bnkyPen = countBnyk(arrayPen);
+      bnkyPek = countBnyk(arrayPek);
+    });
 
     var statJk = Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -368,6 +428,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   child: Center(
                     child: ListView(
                       children: <Widget>[
+                        CustomCard(bnkyJk, bnkyUsia, bnkyPen, bnkyPek),
                         CustomChart('Jenis Kelamin', statJk, chartJk),
                         CustomChart('Usia', statUsia, chartUsia),
                         CustomChart('Pendidikan', statPen, chartPendidikan),
@@ -385,6 +446,69 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   }
 }
 
+class CustomText extends StatelessWidget {
+  final double fontSize;
+  final String data;
+  final Color color;
+
+  CustomText(this.data, this.fontSize, this.color);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      data,
+      style: TextStyle(fontSize: fontSize, color: color),
+    );
+  }
+}
+
+class CustomCard extends StatelessWidget {
+  final String jk, usia, pen, pek;
+
+  CustomCard(this.jk, this.usia, this.pen, this.pek);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
+      child: Card(
+        child: Container(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              CustomText(
+                'Kategori Pengguna Terbanyak',
+                20.0,
+                Color(0xFFC54C82),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 12.0, bottom: 12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    CustomText('Jenis Kelamin : $jk', 14.0, Color(0xFF512E67)),
+                    CustomText('Usia : $usia', 14.0, Color(0xFF512E67)),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  CustomText(
+                      'Tingkat Pendidikan : $pen', 14.0, Color(0xFF512E67)),
+                  CustomText('Pekerjaan : $pek', 14.0, Color(0xFF512E67)),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class CustomContainer extends StatelessWidget {
   final String category;
   final int data;
@@ -396,12 +520,10 @@ class CustomContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(bottom: 16.0, right: 8.0, left: 8.0),
-      child: Text(
+      child: CustomText(
         '$category: $data',
-        style: TextStyle(
-          fontSize: 16.0,
-          color: this.color,
-        ),
+        16.0,
+        this.color,
       ),
     );
   }
@@ -423,10 +545,7 @@ class CustomChart extends StatelessWidget {
           padding: EdgeInsets.only(top: 16.0),
           child: Column(
             children: <Widget>[
-              Text(
-                this.title,
-                style: TextStyle(fontSize: 24.0, color: Color(0xFFC54C82)),
-              ),
+              CustomText(this.title, 24.0, Color(0xFFC54C82)),
               Padding(
                 padding: EdgeInsets.all(16.0),
                 child: SizedBox(
@@ -453,4 +572,11 @@ class Demografi {
   Demografi(this.demografi, this.jumlah, Color color)
       : this.color = charts.Color(
             r: color.red, g: color.green, b: color.blue, a: color.alpha);
+}
+
+class Banyak {
+  final int jml;
+  final String kategori;
+
+  Banyak(this.jml, this.kategori);
 }

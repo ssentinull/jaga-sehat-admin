@@ -107,7 +107,7 @@ class _DataScreenState extends State<DataScreen> {
                                           style: TextStyle(
                                             fontFamily: 'Kelvetica',
                                             fontSize: 18.0,
-                                            color: Color(0xFFC54C82),
+                                            color: Color(0xFF512E67),
                                           ),
                                         ),
                                       ),
@@ -179,7 +179,7 @@ class CustomExpandedWidget extends StatelessWidget {
         dense: true,
         leading: Icon(
           icon,
-          color: Color(0xFFC54C82),
+          color: Color(0xFF512E67),
         ),
         title: Text(
           '$category',
