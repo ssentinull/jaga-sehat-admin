@@ -3,12 +3,16 @@ import './dataScreen.dart';
 import './statisticsScreen.dart';
 import './backgrounds.dart';
 import './reusableWidgets.dart';
-import 'firestoreImage.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'dart:async';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/foundation.dart';
 
 class HomeScreen extends StatelessWidget {
   final BaseAuth auth;
   final VoidCallback onSignedOut;
+  static var httpClient = new HttpClient();
 
   HomeScreen({this.auth, this.onSignedOut});
 
@@ -21,8 +25,19 @@ class HomeScreen extends StatelessWidget {
     }
   }
 
+_launchUrl(String uri) async {
+  if (await canLaunch(uri)) {
+    await launch(uri);
+  } else {
+    throw 'Could not launch $uri';
+  }
+}
+
   @override
   Widget build(BuildContext context) {
+    String url =
+"jagasehat-c7c2e.firebaseio.com/.json?print=pretty&format=export&download=jagasehat-c7c2e-export.json&auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MzA4ODIxMDksImV4cCI6MTUzMDg4NTcwOSwidiI6MCwiYWRtaW4iOnRydWV9.oiyOQuGTVN71DvOTLKGc40LQgRytcejIrQWIF_6RV-A";
+
     var logoutButtons = IconButton(
       icon: Icon(
         Icons.exit_to_app,
@@ -56,7 +71,7 @@ class HomeScreen extends StatelessWidget {
         elevation: 1.5,
         padding: EdgeInsets.all(40.0),
         color: Color(0xFF512E67),
-        child: customPlacement(true, 'Kontak', Icons.assignment_ind),
+        child: customPlacement(true, 'Data Individu', Icons.assignment_ind),
         onPressed: () {
           Navigator.of(context).push(dataRoute);
         },
@@ -69,8 +84,10 @@ class HomeScreen extends StatelessWidget {
         elevation: 1.5,
         padding: EdgeInsets.all(40.0),
         color: Color(0xFFFF6699),
-        child: customPlacement(true, 'Unduh', Icons.cloud_download),
-        onPressed: () {},
+        child: customPlacement(true, 'Unduh Data', Icons.cloud_download),
+        onPressed: () {
+          _launchUrl('http:$url');
+        },
       ),
     );
 
@@ -93,7 +110,7 @@ class HomeScreen extends StatelessWidget {
         elevation: 1.5,
         padding: EdgeInsets.all(40.0),
         color: Color(0xFF512E67),
-        child: customPlacement(false, 'Kontak', Icons.assignment_ind),
+        child: customPlacement(false, 'Data Individu', Icons.assignment_ind),
         onPressed: () {
           Navigator.of(context).push(dataRoute);
         },
@@ -106,8 +123,10 @@ class HomeScreen extends StatelessWidget {
         elevation: 1.5,
         padding: EdgeInsets.all(40.0),
         color: Color(0xFFFF6699),
-        child: customPlacement(false, 'Unduh', Icons.cloud_download),
-        onPressed: () {},
+        child: customPlacement(false, 'Unduh Data', Icons.cloud_download),
+        onPressed: () {
+          _launchUrl('https:$url');
+        },
       ),
     );
 
@@ -138,7 +157,8 @@ class HomeScreen extends StatelessWidget {
                             right: 16.0,
                           ),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               statistikButton1,
                               dataButton1,
@@ -202,7 +222,7 @@ Widget customPlacement(bool p, String text, IconData icon) {
         '$text',
         style: TextStyle(
           color: Colors.white,
-          fontSize: 32.0,
+          fontSize: 26.0,
         ),
       ),
     ],
