@@ -8,16 +8,43 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:179847145270:android:ab3e89d334ae54f2",
+        "mobilesdk_app_id": "1:179847145270:android:683d1673a0317b8c",
         "android_client_info": {
-          "package_name": "jagasehat.admin.app"
+          "package_name": "firebase.login.example"
         }
       },
       "oauth_client": [
         {
           "client_id": "179847145270-d1dpfv5rcgtqv4678kr0j3e3dtrrv9n6.apps.googleusercontent.com",
           "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD87nJ_FhuIlPIzWhCdiPwzjzmlZP3SuTU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
         },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179847145270:android:ab3e89d334ae54f2",
+        "android_client_info": {
+          "package_name": "jagasehat.admin.app"
+        }
+      },
+      "oauth_client": [
         {
           "client_id": "179847145270-d1dpfv5rcgtqv4678kr0j3e3dtrrv9n6.apps.googleusercontent.com",
           "client_type": 3
@@ -52,7 +79,65 @@
         {
           "client_id": "179847145270-d1dpfv5rcgtqv4678kr0j3e3dtrrv9n6.apps.googleusercontent.com",
           "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD87nJ_FhuIlPIzWhCdiPwzjzmlZP3SuTU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
         },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179847145270:android:f6dbf856fbade4cd",
+        "android_client_info": {
+          "package_name": "jagasehat.kel21.admin.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "179847145270-d1dpfv5rcgtqv4678kr0j3e3dtrrv9n6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD87nJ_FhuIlPIzWhCdiPwzjzmlZP3SuTU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179847145270:android:57c41e5c7a206cb2",
+        "android_client_info": {
+          "package_name": "jagasehat.kel21.app"
+        }
+      },
+      "oauth_client": [
         {
           "client_id": "179847145270-d1dpfv5rcgtqv4678kr0j3e3dtrrv9n6.apps.googleusercontent.com",
           "client_type": 3
