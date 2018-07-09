@@ -30,6 +30,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       jmlMhs = 0,
       jmlPlj = 0,
       jmlLnn = 0,
+      jmlTotal = 0,
       totalJk = 0,
       totalUsia = 0,
       totalPen = 0,
@@ -55,6 +56,13 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     super.initState();
 
     dbReference = FirebaseDatabase.instance.reference().child("data_pengguna");
+
+    dbReference.once().then((onValue) {
+      Map data = onValue.value;
+      setState(() {
+        jmlTotal = data.length;
+      });
+    });
 
     dbReference.orderByChild("jk").equalTo("Pria").once().then((onValue) {
       Map data = onValue.value;
@@ -112,14 +120,22 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       });
     });
 
-    dbReference.orderByChild("pendidikan").equalTo("SMP").once().then((onValue) {
+    dbReference
+        .orderByChild("pendidikan")
+        .equalTo("SMP")
+        .once()
+        .then((onValue) {
       Map data = onValue.value;
       setState(() {
         jmlSmp = data.length;
       });
     });
 
-    dbReference.orderByChild("pendidikan").equalTo("SMA").once().then((onValue) {
+    dbReference
+        .orderByChild("pendidikan")
+        .equalTo("SMA")
+        .once()
+        .then((onValue) {
       Map data = onValue.value;
       setState(() {
         jmlSma = data.length;
@@ -166,21 +182,33 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       });
     });
 
-    dbReference.orderByChild("pekerjaan").equalTo("Mahasiswa").once().then((onValue) {
+    dbReference
+        .orderByChild("pekerjaan")
+        .equalTo("Mahasiswa")
+        .once()
+        .then((onValue) {
       Map data = onValue.value;
       setState(() {
         jmlMhs = data.length;
       });
     });
 
-    dbReference.orderByChild("pekerjaan").equalTo("Pelajar").once().then((onValue) {
+    dbReference
+        .orderByChild("pekerjaan")
+        .equalTo("Pelajar")
+        .once()
+        .then((onValue) {
       Map data = onValue.value;
       setState(() {
         jmlPlj = data.length;
       });
     });
 
-    dbReference.orderByChild("pekerjaan").equalTo("Lainnya").once().then((onValue) {
+    dbReference
+        .orderByChild("pekerjaan")
+        .equalTo("Lainnya")
+        .once()
+        .then((onValue) {
       Map data = onValue.value;
       setState(() {
         jmlLnn = data.length;
@@ -310,11 +338,11 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     ];
 
     var dataUsia = [
-      Demografi('6 - 17', jmlPns, Color(0xFFC54C82)),
-      Demografi('18 - 29', jmlSwas, Color(0xFFFF6699)),
-      Demografi('30 - 45', jmlWrs, Color(0xFF512E67)),
-      Demografi('46 - 60', jmlMhs, Color(0xFF843156)),
-      Demografi('60+', jmlPlj, Color(0xFF992365)),
+      Demografi('6 - 17', jml617, Color(0xFFC54C82)),
+      Demografi('18 - 29', jml1829, Color(0xFFFF6699)),
+      Demografi('30 - 45', jml3045, Color(0xFF512E67)),
+      Demografi('46 - 60', jml4660, Color(0xFF843156)),
+      Demografi('60+', jml60, Color(0xFF992365)),
     ];
 
     var dataPendidikan = [
@@ -428,7 +456,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   child: Center(
                     child: ListView(
                       children: <Widget>[
-                        CustomCard(bnkyJk, bnkyUsia, bnkyPen, bnkyPek),
+                        CustomCard(
+                            jmlTotal, bnkyJk, bnkyUsia, bnkyPen, bnkyPek),
                         CustomChart('Jenis Kelamin', statJk, chartJk),
                         CustomChart('Usia', statUsia, chartUsia),
                         CustomChart('Pendidikan', statPen, chartPendidikan),
@@ -463,9 +492,10 @@ class CustomText extends StatelessWidget {
 }
 
 class CustomCard extends StatelessWidget {
+  final int total;
   final String jk, usia, pen, pek;
 
-  CustomCard(this.jk, this.usia, this.pen, this.pek);
+  CustomCard(this.total, this.jk, this.usia, this.pen, this.pek);
 
   @override
   Widget build(BuildContext context) {
@@ -481,14 +511,21 @@ class CustomCard extends StatelessWidget {
                 20.0,
                 Color(0xFFC54C82),
               ),
+              Center(
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 6.0, top: 12.0),
+                  child: CustomText(
+                      'Total Jumlah Pengguna: $total', 18.0, Color(0xFF512E67)),
+                ),
+              ),
               Container(
-                margin: EdgeInsets.only(top: 12.0, bottom: 12.0),
+                margin: EdgeInsets.only(top: 6.0, bottom: 12.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    CustomText('Jenis Kelamin : $jk', 14.0, Color(0xFF512E67)),
-                    CustomText('Usia : $usia', 14.0, Color(0xFF512E67)),
+                    CustomText('Jenis Kelamin : $jk', 15.0, Color(0xFF512E67)),
+                    CustomText('Usia : $usia', 15.0, Color(0xFF512E67)),
                   ],
                 ),
               ),
@@ -497,8 +534,8 @@ class CustomCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   CustomText(
-                      'Tingkat Pendidikan : $pen', 14.0, Color(0xFF512E67)),
-                  CustomText('Pekerjaan : $pek', 14.0, Color(0xFF512E67)),
+                      'Tingkat Pendidikan : $pen', 15.0, Color(0xFF512E67)),
+                  CustomText('Pekerjaan : $pek', 15.0, Color(0xFF512E67)),
                 ],
               ),
             ],
